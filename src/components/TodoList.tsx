@@ -4,27 +4,33 @@ import {FilterValuesType, TaskType} from "../App";
 type TodoListPropsType = {
    title: string
    tasks: Array<TaskType>
-   removeTasks: (id: string) => void
-   changeTodoListFilter: (filterValue: FilterValuesType) => void
-   addTask: (title: string) => void
+   removeTasks: (id: string, todolistId: string) => void
+   changeTodoListFilter: (filterValue: FilterValuesType, todolistId: string) => void
+   addTask: (title: string, todolistId: string) => void
    filter: FilterValuesType
-   changeTaskStatus: (taskId: string, isDone: boolean) => void
+   changeTaskStatus: (taskId: string, isDone: boolean, todolistId: string) => void
+   id: string
+   removeTodoList: (todolistId: string) => void
 }
 
-export const TodoList: React.FC<TodoListPropsType> = ({
-                                                         title,
-                                                         tasks,
-                                                         removeTasks,
-                                                         changeTodoListFilter,
-                                                         addTask,
-                                                         filter,
-                                                         changeTaskStatus
-                                                      }) => {
+export const TodoList: React.FC<TodoListPropsType> = (
+   {
+      title,
+      tasks,
+      removeTasks,
+      changeTodoListFilter,
+      addTask,
+      filter,
+      changeTaskStatus,
+      id,
+      removeTodoList
+   }) => {
+
    const tasksJSXElements = tasks.map(t => {
-      const removeTask = () => removeTasks(t.id)
+      const removeTask = () => removeTasks(t.id, id)
       const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
          const newTaskIsDone = e.currentTarget.checked
-         changeTaskStatus(t.id, newTaskIsDone)
+         changeTaskStatus(t.id, newTaskIsDone, id)
       };
       const taskClasses = t.isDone ? 'is-done' : '';
 
@@ -55,28 +61,31 @@ export const TodoList: React.FC<TodoListPropsType> = ({
    const addNewTask = () => {
       const trimmedNewTaskTitle = newTaskTitle.trim();
       if (trimmedNewTaskTitle) {
-         addTask(trimmedNewTaskTitle)
+         addTask(trimmedNewTaskTitle, id)
       } else {
          setError('Title is required')
       }
       setNewTaskTitle('');
    };
    const onAllClickHandler = () => {
-      changeTodoListFilter('all')
+      changeTodoListFilter('all', id)
    };
    const onActiveClickHandler = () => {
-      changeTodoListFilter('active')
+      changeTodoListFilter('active', id)
    };
    const onCompletedClickHandler = () => {
-      changeTodoListFilter('completed')
+      changeTodoListFilter('completed', id)
    };
    const activeClassButton = (filterStatus: FilterValuesType) => {
       return filter === filterStatus ? 'active-filter' : ''
    };
+   const removeTodoListHandler = () => {
+      removeTodoList(id);
+   }
 
    return (
       <div>
-         <h3>{title}</h3>
+         <h3>{title} <button onClick={removeTodoListHandler}>X</button></h3>
          <div>
             <input
                className={error ? 'error' : ''}

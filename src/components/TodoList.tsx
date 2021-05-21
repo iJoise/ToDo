@@ -1,5 +1,6 @@
-import React, {useState, KeyboardEvent, ChangeEvent} from "react";
+import React, {ChangeEvent} from "react";
 import {FilterValuesType, TaskType} from "../App";
+import {AddItemForm} from "./AddItemForm";
 
 type TodoListPropsType = {
    title: string
@@ -46,27 +47,6 @@ export const TodoList: React.FC<TodoListPropsType> = (
       )
    });
 
-   const [newTaskTitle, setNewTaskTitle] = useState('');
-   const [error, setError] = useState<string | null>(null);
-
-   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-      setNewTaskTitle(event.currentTarget.value);
-   };
-   const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-      setError(null);
-      if (event.key === 'Enter') {
-         addNewTask();
-      }
-   };
-   const addNewTask = () => {
-      const trimmedNewTaskTitle = newTaskTitle.trim();
-      if (trimmedNewTaskTitle) {
-         addTask(trimmedNewTaskTitle, todolistID)
-      } else {
-         setError('Title is required')
-      }
-      setNewTaskTitle('');
-   };
    const onAllClickHandler = () => {
       changeTodoListFilter('all', todolistID)
    };
@@ -82,20 +62,14 @@ export const TodoList: React.FC<TodoListPropsType> = (
    const removeTodoListHandler = () => {
       removeTodoList(todolistID);
    };
+   const addTaskForTodoList = (title: string) => {
+      addTask(title, todolistID)
+   }
 
    return (
       <div>
          <h3>{title} <button onClick={removeTodoListHandler}>X</button></h3>
-         <div>
-            <input
-               className={error ? 'error' : ''}
-               value={newTaskTitle}
-               onChange={onChangeHandler}
-               onKeyPress={onKeyPressHandler}
-            />
-            <button onClick={addNewTask}>+</button>
-            {error && <div className='error-message'>{error}</div>}
-         </div>
+         <AddItemForm addItem={addTaskForTodoList}/>
          <ul>
             {tasksJSXElements}
          </ul>
@@ -116,3 +90,5 @@ export const TodoList: React.FC<TodoListPropsType> = (
       </div>
    );
 }
+
+

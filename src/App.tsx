@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.scss';
 import {TodoList} from "./components/TodoList";
 import {v1} from 'uuid';
+import {AddItemForm} from "./components/AddItemForm";
 
 export type TaskType = {
    id: string
@@ -111,11 +112,21 @@ export function App() {
       tasks[todolistId] = taskStatus.map(t => t.id === taskId ? {...t, isDone: newIsDoneValue} : t);
       setTasks({...tasks});
    };
-
-
+   const addTodoListForm = (title: string) => {
+      /**
+       * Обязательно нужно указывать тип того объекта или массива который собираемся добавить
+       * newTodoListForm: TodoListItemType
+       */
+      const newTodoListForm: TodoListItemType = {id: v1(), title: title, filter: 'all'};
+      setTodoListsItem([newTodoListForm, ...todoListsItem]);
+      setTasks({
+         ...tasks,
+         [newTodoListForm.id]: []
+      })
+   }
    return (
       <div className="App">
-
+         <AddItemForm addItem={addTodoListForm}/>
          {
             todoListsItem.map(tl => {
 

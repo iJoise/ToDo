@@ -112,6 +112,19 @@ export function App() {
       tasks[todolistId] = taskStatus.map(t => t.id === taskId ? {...t, isDone: newIsDoneValue} : t);
       setTasks({...tasks});
    };
+   const changeTaskTitle = (taskId: string, newTitle: string, todolistId: string) => {
+
+      const taskTitle = tasks[todolistId];
+      tasks[todolistId] = taskTitle.map(t => t.id === taskId ? {...t, title: newTitle} : t);
+      setTasks({...tasks});
+   }
+   const changeTodoListTitle = (newTitle: string, todolistId: string) => {
+      const titleForTodoList = todoListsItem.map(t => t.id === todolistId
+         ? {...t, title: newTitle}
+         : t);
+      setTodoListsItem([...titleForTodoList]);
+   }
+
    const addTodoListForm = (title: string) => {
       /**
        * Обязательно нужно указывать тип того объекта или массива который собираемся добавить
@@ -124,6 +137,7 @@ export function App() {
          [newTodoListForm.id]: []
       })
    }
+
    return (
       <div className="App">
          <AddItemForm addItem={addTodoListForm}/>
@@ -153,6 +167,8 @@ export function App() {
                   filter={tl.filter}
                   changeTaskStatus={changeTaskStatus}
                   removeTodoList={removeTodoList}
+                  changeTaskTitle={changeTaskTitle}
+                  changeTodoListTitle={changeTodoListTitle}
                />
             })
          }
@@ -160,3 +176,5 @@ export function App() {
       </div>
    );
 }
+
+

@@ -1,10 +1,11 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useState, KeyboardEvent} from "react";
+import {TextField} from "@material-ui/core";
 
 type EditableStanPropsType = {
    titleForSpan: string
    onChange: (newValue: string) => void
 }
-export const EditableStan: React.FC<EditableStanPropsType> = ({titleForSpan,onChange}) => {
+export const EditableStan: React.FC<EditableStanPropsType> = ({titleForSpan, onChange}) => {
    const [editMode, setEditMode] = useState(false);
    const [title, setTitle] = useState('');
 
@@ -18,13 +19,21 @@ export const EditableStan: React.FC<EditableStanPropsType> = ({titleForSpan,onCh
    };
    const onChangeTitleSpanHandler = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)
 
+   const onKeyPressEnterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+         activateViewMode();
+      }
+   }
+
    return (
       editMode
-         ? <input
+         ? <TextField
             onBlur={activateViewMode}
             value={title}
             onChange={onChangeTitleSpanHandler}
-            autoFocus/>
+            autoFocus
+            onKeyPress={onKeyPressEnterHandler}
+         />
          : <span onDoubleClick={activateEditMode}>{titleForSpan}</span>
    )
 }

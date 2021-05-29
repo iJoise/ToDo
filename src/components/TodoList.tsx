@@ -2,6 +2,8 @@ import React, {ChangeEvent} from "react";
 import {FilterValuesType, TaskType} from "../App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableStan} from "./EditableStan";
+import {Button, Checkbox, IconButton} from "@material-ui/core";
+import {Delete} from "@material-ui/icons";
 
 type TodoListPropsType = {
    title: string
@@ -46,15 +48,18 @@ export const TodoList: React.FC<TodoListPropsType> = (
 
       return (
          <li key={t.id} className={taskClasses}>
-            <input type="checkbox"
-                   checked={t.isDone}
-                   onChange={onChangeStatusHandler}
+            <Checkbox
+               checked={t.isDone}
+               onChange={onChangeStatusHandler}
             />
             <EditableStan titleForSpan={t.title} onChange={onChangeTaskTitleHandler}/>
-            <button onClick={removeTask}>x</button>
+            <IconButton onClick={removeTask}>
+               <Delete/>
+            </IconButton>
          </li>
       )
    });
+
 
    const onAllClickHandler = () => {
       changeTodoListFilter('all', todolistID)
@@ -66,7 +71,7 @@ export const TodoList: React.FC<TodoListPropsType> = (
       changeTodoListFilter('completed', todolistID)
    };
    const activeClassButton = (filterStatus: FilterValuesType) => {
-      return filter === filterStatus ? 'active-filter' : ''
+      return filter === filterStatus ? 'contained' : 'text'
    };
    const removeTodoListHandler = () => {
       removeTodoList(todolistID);
@@ -80,24 +85,30 @@ export const TodoList: React.FC<TodoListPropsType> = (
 
    return (
       <div>
-         <h3> <EditableStan titleForSpan={title} onChange={onChangeTodoListTitleHandler}/> <button onClick={removeTodoListHandler}>X</button></h3>
+         <h3><EditableStan titleForSpan={title} onChange={onChangeTodoListTitleHandler}/>
+            <IconButton onClick={removeTodoListHandler}>
+               <Delete/>
+            </IconButton>
+         </h3>
          <AddItemForm addItem={addTaskForTodoList}/>
-         <ul>
+         <ul style={ {minHeight: '250px'} }>
             {tasksJSXElements}
          </ul>
          <div>
-            <button
-               className={activeClassButton("all")}
+            <Button
+               variant={activeClassButton("all")}
                onClick={onAllClickHandler}>All
-            </button>
-            <button
-               className={activeClassButton("active")}
+            </Button>
+            <Button
+               color={"primary"}
+               variant={activeClassButton("active")}
                onClick={onActiveClickHandler}>Active
-            </button>
-            <button
-               className={activeClassButton("completed")}
+            </Button>
+            <Button
+               color={"secondary"}
+               variant={activeClassButton("completed")}
                onClick={onCompletedClickHandler}>Completed
-            </button>
+            </Button>
          </div>
       </div>
    );

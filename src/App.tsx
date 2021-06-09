@@ -18,7 +18,7 @@ export type TodoListItemType = {
    title: string
    filter: FilterValuesType
 };
-export type TaskStateType = {
+export type TasksStateType = {
    [key: string]: TaskType[]
 };
 
@@ -51,9 +51,9 @@ export function App() {
       {id: todolistID_1, title: 'What to learn', filter: 'all'},
       {id: todolistID_2, title: 'What to buy', filter: 'all'},
       {id: todolistID_3, title: 'What you need to be happy', filter: 'all'},
-   ]);
+   ])
 
-   const [tasks, setTasks] = useState<TaskStateType>({
+   const [tasks, setTasks] = useState<TasksStateType>({
       [todolistID_1]: [
          {id: v1(), title: 'HTML', isDone: true},
          {id: v1(), title: 'CSS', isDone: true},
@@ -74,19 +74,8 @@ export function App() {
          {id: v1(), title: 'Move to another city', isDone: false},
          {id: v1(), title: 'Buy a garage there', isDone: false},
       ]
-   });
+   })
 
-   const removeTodoList = (todolistId: string) => {
-      /**
-       * Удаление тудушки. Удаляем из массива todoListsItem тудушек,
-       * так же удаляем и объекта tasks
-       */
-      const newTodoListItem = todoListsItem.filter(tl => tl.id !== todolistId);
-      setTodoListsItem(newTodoListItem);
-
-      delete tasks[todolistId];
-      setTasks({...tasks});
-   }
    const addTask = (title: string, todolistId: string) => {
       /**
        * Добавление новой таски. т.к изменили способ хранения данных изменился алгоритм
@@ -109,19 +98,13 @@ export function App() {
        */
 
       setTasks({...tasks, [todolistId]: [newTask, ...tasks[todolistId]]});
-   };
-   const removeTasks = (id: string, todolistId: string) => {
+   }
+   const removeTask = (id: string, todolistId: string) => {
       const copyTasks = tasks[todolistId];
       tasks[todolistId] = copyTasks.filter(t => t.id !== id);
 
       setTasks({...tasks});
    }
-   const changeTodoListFilter = (filterValue: FilterValuesType, todolistId: string) => {
-      /**
-       * Делаем фильтрацию all active completed
-       */
-      setTodoListsItem(todoListsItem.map(tl => tl.id === todolistId ? {...tl, filter: filterValue} : tl))
-   };
    const changeTaskStatus = (taskId: string, newIsDoneValue: boolean, todolistId: string) => {
       /**
        * Меняем статус таски сделана/не сделана
@@ -129,18 +112,12 @@ export function App() {
       const taskStatus = tasks[todolistId];
       tasks[todolistId] = taskStatus.map(t => t.id === taskId ? {...t, isDone: newIsDoneValue} : t);
       setTasks({...tasks});
-   };
+   }
    const changeTaskTitle = (taskId: string, newTitle: string, todolistId: string) => {
 
       const taskTitle = tasks[todolistId];
       tasks[todolistId] = taskTitle.map(t => t.id === taskId ? {...t, title: newTitle} : t);
       setTasks({...tasks});
-   }
-   const changeTodoListTitle = (newTitle: string, todolistId: string) => {
-      const titleForTodoList = todoListsItem.map(t => t.id === todolistId
-         ? {...t, title: newTitle}
-         : t);
-      setTodoListsItem([...titleForTodoList]);
    }
 
    const addTodoListForm = (title: string) => {
@@ -154,6 +131,29 @@ export function App() {
          ...tasks,
          [newTodoListForm.id]: []
       })
+   }
+   const removeTodoList = (todolistId: string) => {
+      /**
+       * Удаление тудушки. Удаляем из массива todoListsItem тудушек,
+       * так же удаляем и объекта tasks
+       */
+      const newTodoListItem = todoListsItem.filter(tl => tl.id !== todolistId);
+      setTodoListsItem(newTodoListItem);
+
+      delete tasks[todolistId];
+      setTasks({...tasks});
+   }
+   const changeTodoListTitle = (newTitle: string, todolistId: string) => {
+      const titleForTodoList = todoListsItem.map(t => t.id === todolistId
+         ? {...t, title: newTitle}
+         : t);
+      setTodoListsItem([...titleForTodoList]);
+   }
+   const changeTodoListFilter = (filterValue: FilterValuesType, todolistId: string) => {
+      /**
+       * Делаем фильтрацию all active completed
+       */
+      setTodoListsItem(todoListsItem.map(tl => tl.id === todolistId ? {...tl, filter: filterValue} : tl))
    }
 
    return (
@@ -197,7 +197,7 @@ export function App() {
                               todolistID={tl.id}
                               title={tl.title}
                               tasks={GetTaskForTodoList}
-                              removeTasks={removeTasks}
+                              removeTasks={removeTask}
                               changeTodoListFilter={changeTodoListFilter}
                               addTask={addTask}
                               filter={tl.filter}

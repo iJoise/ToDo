@@ -1,6 +1,13 @@
-import {TasksStateType, TaskType} from "../App";
-import {AddTodolistActionType, RemoveTodolistActionType} from "./todolists-reducer";
+
+import {
+   AddTodolistActionType,
+   RemoveTodolistActionType,
+   todolistID_1,
+   todolistID_2,
+   todolistID_3
+} from "./todolists-reducer";
 import {v1} from "uuid";
+import {TasksStateType, TaskType} from "../AppWithRedux";
 
 type RemoveTasksActionType = ReturnType<typeof removeTaskAC>
 type TasksTodolistActionType = ReturnType<typeof addTaskAC>
@@ -15,7 +22,30 @@ type ActionsType = RemoveTasksActionType
    | AddTodolistActionType
    | RemoveTodolistActionType
 
-export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksStateType => {
+const initialState: TasksStateType = {
+   [todolistID_1]: [
+      {id: v1(), title: 'HTML', isDone: true},
+      {id: v1(), title: 'CSS', isDone: true},
+      {id: v1(), title: 'React', isDone: false},
+      {id: v1(), title: 'Rest API', isDone: true},
+      {id: v1(), title: 'GraphQL', isDone: false},
+   ],
+   [todolistID_2]: [
+      {id: v1(), title: 'Gin', isDone: true},
+      {id: v1(), title: 'Whisky', isDone: true},
+      {id: v1(), title: 'Hennessy', isDone: false},
+      {id: v1(), title: 'Angostura', isDone: true},
+      {id: v1(), title: 'Jagermeister', isDone: false},
+   ],
+   [todolistID_3]: [
+      {id: v1(), title: 'Husqvarna 701 Enduro', isDone: false},
+      {id: v1(), title: 'Find a job in IT', isDone: false},
+      {id: v1(), title: 'Move to another city', isDone: false},
+      {id: v1(), title: 'Buy a garage there', isDone: false},
+   ],
+}
+
+export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
    switch (action.type) {
       case 'REMOVE-TASK': {
          return {
@@ -53,7 +83,6 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
             ...state,
             [action.todolistId]: []
          };
-
       }
       case "REMOVE-TODOLIST": {
          const stateCopy = {...state};
@@ -61,9 +90,10 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
          return stateCopy;
       }
       default:
-         throw new Error("I don't understand this type");
+         return state;
    }
 }
+
 /**
  * Action Creator
  */

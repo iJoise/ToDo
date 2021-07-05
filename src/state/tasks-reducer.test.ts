@@ -1,34 +1,39 @@
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from './tasks-reducer';
-import {TasksStateType} from '../App';
+import {TasksStateType} from '../AppWithRedux';
 import {addTodolistAC, removeTodolistAC} from "./todolists-reducer";
 
-test('correct task should be deleted from correct array', () => {
-   const startState: TasksStateType = {
-      "todolistId1": [
-         { id: "1", title: "CSS", isDone: false },
-         { id: "2", title: "JS", isDone: true },
-         { id: "3", title: "React", isDone: false },
-      ],
-      "todolistId2": [
-         { id: "1", title: "bread", isDone: false },
-         { id: "2", title: "milk", isDone: true },
-         { id: "3", title: "tea", isDone: false },
-      ],
-   };
+let startState: TasksStateType;
 
+beforeEach(() => {
+      startState = {
+         "todolistId1": [
+            {id: "1", title: "CSS", isDone: false},
+            {id: "2", title: "JS", isDone: true},
+            {id: "3", title: "React", isDone: false},
+         ],
+         "todolistId2": [
+            {id: "1", title: "bread", isDone: false},
+            {id: "2", title: "milk", isDone: true},
+            {id: "3", title: "tea", isDone: false},
+         ],
+      }
+   }
+)
+
+test('correct task should be deleted from correct array', () => {
    const action = removeTaskAC("2", "todolistId2");
 
    const endState = tasksReducer(startState, action);
 
    expect(endState).toEqual({
       "todolistId1": [
-         { id: "1", title: "CSS", isDone: false },
-         { id: "2", title: "JS", isDone: true },
-         { id: "3", title: "React", isDone: false },
+         {id: "1", title: "CSS", isDone: false},
+         {id: "2", title: "JS", isDone: true},
+         {id: "3", title: "React", isDone: false},
       ],
       "todolistId2": [
-         { id: "1", title: "bread", isDone: false },
-         { id: "3", title: "tea", isDone: false },
+         {id: "1", title: "bread", isDone: false},
+         {id: "3", title: "tea", isDone: false},
       ],
    });
    expect(endState["todolistId2"].length).toBe(2);
@@ -36,19 +41,6 @@ test('correct task should be deleted from correct array', () => {
 });
 
 test('correct task should be added to correct array', () => {
-   const startState: TasksStateType = {
-      "todolistId1": [
-         { id: "1", title: "CSS", isDone: false },
-         { id: "2", title: "JS", isDone: true },
-         { id: "3", title: "React", isDone: false },
-      ],
-      "todolistId2": [
-         { id: "1", title: "bread", isDone: false },
-         { id: "2", title: "milk", isDone: true },
-         { id: "3", title: "tea", isDone: false },
-      ],
-   };
-
    const action = addTaskAC("juce", "todolistId2");
 
    const endState = tasksReducer(startState, action);
@@ -61,19 +53,6 @@ test('correct task should be added to correct array', () => {
 })
 
 test('status of specified task should be changed', () => {
-   const startState: TasksStateType = {
-      "todolistId1": [
-         { id: "1", title: "CSS", isDone: false },
-         { id: "2", title: "JS", isDone: true },
-         { id: "3", title: "React", isDone: false },
-      ],
-      "todolistId2": [
-         { id: "1", title: "bread", isDone: false },
-         { id: "2", title: "milk", isDone: true },
-         { id: "3", title: "tea", isDone: false },
-      ],
-   };
-
    const action = changeTaskStatusAC("2", false, "todolistId2");
 
    const endState = tasksReducer(startState, action);
@@ -84,20 +63,7 @@ test('status of specified task should be changed', () => {
 });
 
 test('Should change the title of the task', () => {
-   const startState: TasksStateType = {
-      "todolistId1": [
-         { id: "1", title: "CSS", isDone: false },
-         { id: "2", title: "JS", isDone: true },
-         { id: "3", title: "React", isDone: false },
-      ],
-      "todolistId2": [
-         { id: "1", title: "bread", isDone: false },
-         { id: "2", title: "milk", isDone: true },
-         { id: "3", title: "tea", isDone: false },
-      ],
-   };
-
-   const action = changeTaskTitleAC('3', 'Vue', 'todolistId1');
+  const action = changeTaskTitleAC('3', 'Vue', 'todolistId1');
 
    const endState = tasksReducer(startState, action);
 
@@ -108,20 +74,7 @@ test('Should change the title of the task', () => {
 })
 
 test('new array should be added when new todolist is added', () => {
-   const startState: TasksStateType = {
-      "todolistId1": [
-         { id: "1", title: "CSS", isDone: false },
-         { id: "2", title: "JS", isDone: true },
-         { id: "3", title: "React", isDone: false },
-      ],
-      "todolistId2": [
-         { id: "1", title: "bread", isDone: false },
-         { id: "2", title: "milk", isDone: true },
-         { id: "3", title: "tea", isDone: false },
-      ],
-   };
-
-   const action = addTodolistAC("new todolist");
+  const action = addTodolistAC("new todolist");
 
    const endState = tasksReducer(startState, action);
 
@@ -137,20 +90,7 @@ test('new array should be added when new todolist is added', () => {
 });
 
 test('property with todolistId should be deleted', () => {
-   const startState: TasksStateType = {
-      "todolistId1": [
-         { id: "1", title: "CSS", isDone: false },
-         { id: "2", title: "JS", isDone: true },
-         { id: "3", title: "React", isDone: false },
-      ],
-      "todolistId2": [
-         { id: "1", title: "bread", isDone: false },
-         { id: "2", title: "milk", isDone: true },
-         { id: "3", title: "tea", isDone: false },
-      ],
-   };
-
-   const action = removeTodolistAC("todolistId2");
+  const action = removeTodolistAC("todolistId2");
 
    const endState = tasksReducer(startState, action);
 

@@ -7,8 +7,8 @@ export type AddItemFormPropsType = {
 }
 
 
-export const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
-
+export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo ( ({addItem}) => {
+   console.log('AddItemForm is called')
    const [newTaskTitle, setNewTaskTitle] = useState('');
    const [error, setError] = useState<string | null>(null);
 
@@ -16,7 +16,9 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
       setNewTaskTitle(event.currentTarget.value);
    };
    const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-      setError(null);
+      if (error !== null) {
+         setError(null);
+      }
       if (event.key === 'Enter') {
          addNewTask();
       }
@@ -47,4 +49,4 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
          </IconButton>
       </div>
    )
-}
+});

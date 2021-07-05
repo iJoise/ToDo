@@ -1,7 +1,6 @@
-import React from 'react';
-import './App.scss';
-import {TodoList} from "./components/TodoList";
-import {AddItemForm} from "./components/AddItemForm";
+import React, {useCallback} from 'react';
+import {TodoList} from "./components/TodoList/TodoList";
+import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {makeStyles} from "@material-ui/styles";
@@ -12,7 +11,7 @@ import {
    removeTodolistAC
 } from "./state/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "./state/store";
+import {AppRootStateType} from "./state/store";
 
 
 export type TaskType = {
@@ -38,24 +37,25 @@ const useStyles = makeStyles({
 
 
 export const  AppWithRedux = () => {
+   console.log('App is called')
    const classes = useStyles();
 
    const dispatch = useDispatch()
-   const todolists = useSelector<AppRootState, TodoListItemType[]>(state => state.todolists)
+   const todolists = useSelector<AppRootStateType, TodoListItemType[]>(state => state.todolists)
 
-   const addTodoListForm = (title: string) => {
+   const addTodoListForm = useCallback((title: string) => {
       const action = addTodolistAC(title)
       dispatch(action);
-   }
-   const removeTodoList = (todolistId: string) => {
+   }, [dispatch]);
+   const removeTodoList = useCallback( (todolistId: string) => {
       dispatch(removeTodolistAC(todolistId));
-   }
-   const changeTodoListTitle = (newTitle: string, todolistId: string) => {
+   }, [dispatch])
+   const changeTodoListTitle = useCallback( (newTitle: string, todolistId: string) => {
       dispatch(changeTodolistTitleAC(todolistId, newTitle));
-   }
-   const changeTodoListFilter = (filterValue: FilterValuesType, todolistId: string) => {
+   }, [dispatch])
+   const changeTodoListFilter = useCallback( (filterValue: FilterValuesType, todolistId: string) => {
       dispatch(changeTodolistFilterAC(todolistId, filterValue));
-   }
+   }, [dispatch])
 
    return (
       <div className="App">
@@ -79,7 +79,6 @@ export const  AppWithRedux = () => {
             <Grid container spacing={5}>
                {
                   todolists.map(tl => {
-
                      return <Grid item key={tl.id}>
                         <Paper elevation={3} style={{padding: '10px'}}>
                            <TodoList

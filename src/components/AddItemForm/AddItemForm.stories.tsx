@@ -3,20 +3,22 @@ import { Story, Meta } from '@storybook/react';
 import {AddItemForm} from "./AddItemForm";
 import {AddItemFormPropsType} from "./AddItemForm";
 import {action} from "@storybook/addon-actions";
-import '../App.scss'
 
 export default {
-   title: 'AddItemForm/AddItemForm',
+   title: 'TODOLISTS/AddItemForm',
    component: AddItemForm,
    argTypes: {
+      onClick: {
+         description: 'Button clicked inside component'
+      }
    },
 } as Meta;
 
-const callback = action('Text added')
+const callback = action('Button clicked inside component')
 
 const Template: Story<AddItemFormPropsType> = (args) => <AddItemForm {...args} />;
-export const AddInput = Template.bind({})
-AddInput.args = {
+export const AddItemFormExample = Template.bind({})
+AddItemFormExample.args = {
    addItem: callback
 }
 

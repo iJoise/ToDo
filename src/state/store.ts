@@ -9,7 +9,7 @@ todolists: todolistsReducer,
 
 export const store = createStore(rootReducers);
 
-export type AppRootState = ReturnType<typeof rootReducers>
+export type AppRootStateType = ReturnType<typeof rootReducers>
 
 // @ts-ignore
 window.store = store

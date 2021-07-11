@@ -6,8 +6,9 @@ import {Delete} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../state/store";
 import {addTaskAC} from "../../state/tasks-reducer";
-import {FilterValuesType, TaskType} from "../../AppWithRedux";
 import {Task} from "../Task/Task";
+import {FilterValuesType} from "../../state/todolists-reducer";
+import {TaskStatuses, TaskType} from "../../api/todolists-api";
 
 export type TodoListPropsType = {
    title: string
@@ -59,9 +60,9 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo((
 
       switch (filter) {
          case "active":
-            return filteredTasks.filter(t => !t.isDone);
+            return filteredTasks.filter(t => t.status = TaskStatuses.New);
          case "completed":
-            return filteredTasks.filter(t => t.isDone);
+            return filteredTasks.filter(t => t.status = TaskStatuses.Completed);
          default:
             return filteredTasks;
       }

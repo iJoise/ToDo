@@ -11,10 +11,10 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo((props) 
    const [editMode, setEditMode] = useState(false);
    const [title, setTitle] = useState('');
 
-   const activateEditMode = () => {
+   const activateEditMode = useCallback(() => {
       setEditMode(true);
       setTitle(titleForSpan);
-   };
+   }, [titleForSpan]);
    const activateViewMode = useCallback(() => {
       if (title.trim()) {
          setEditMode(false);

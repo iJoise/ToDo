@@ -2,14 +2,7 @@ import React, {useCallback, useEffect} from 'react';
 import {TodoList} from "./components/TodoList/TodoList";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {Container, Grid, Paper} from "@material-ui/core";
-import {
-   addTodolistTC,
-   changeTodolistFilterAC,
-   changeTodolistTitleTC,
-   fetchTodolistsTC,
-   FilterValuesType,
-   TodolistDomainType
-} from "./state/todolists-reducer";
+import {addTodolistTC, fetchTodolistsTC, TodolistDomainType} from "./state/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {TaskType} from "./api/todolists-api";
@@ -22,24 +15,18 @@ export type TasksStateType = {
 
 
 export const App = () => {
+
    const dispatch = useDispatch();
    const todolists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists);
 
    useEffect(() => {
       dispatch(fetchTodolistsTC());
+      // eslint-disable-next-line
    }, []);
 
    const addTodoListForm = useCallback((title: string) => {
       const action = addTodolistTC(title)
       dispatch(action);
-   }, [dispatch]);
-
-   const changeTodoListTitle = useCallback((newTitle: string, todolistId: string) => {
-      dispatch(changeTodolistTitleTC(todolistId, newTitle));
-   }, [dispatch]);
-
-   const changeTodoListFilter = useCallback((filterValue: FilterValuesType, todolistId: string) => {
-      dispatch(changeTodolistFilterAC(todolistId, filterValue));
    }, [dispatch]);
 
    return (
@@ -58,11 +45,9 @@ export const App = () => {
                         <Paper elevation={3} style={{padding: '10px'}}>
                            <TodoList
                               key={tl.id}
-                              todolistID={tl.id}
+                              todolistId={tl.id}
                               title={tl.title}
                               filter={tl.filter}
-                              changeTodoListFilter={changeTodoListFilter}
-                              changeTodoListTitle={changeTodoListTitle}
                            />
                         </Paper>
                      </Grid>

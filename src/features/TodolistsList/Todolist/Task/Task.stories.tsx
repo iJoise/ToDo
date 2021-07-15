@@ -1,8 +1,8 @@
 import React from 'react';
 import {Story, Meta} from '@storybook/react';
 import {Task, TaskPropsType} from "./Task";
-import {ReduxStoreProviderDecorator} from "../../stories/decorators/ReduxStoreProviderDecorator";
-import {TaskPriorities, TaskStatuses} from "../../api/todolists-api";
+import {ReduxStoreProviderDecorator} from "../../../../stories/decorators/ReduxStoreProviderDecorator";
+import {TaskPriorities, TaskStatuses} from "../../../../api/todolists-api";
 
 export default {
    title: 'TODOLISTS/Task',

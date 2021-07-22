@@ -1,4 +1,12 @@
-.is-done {
-  opacity: 0.5;
+.App {
+  position: relative;
+}
+
+.progress {
+  position: absolute;
+  top: 65px;
+  left: 0;
+  width: 100%;
+  height: 5px;
 
 }

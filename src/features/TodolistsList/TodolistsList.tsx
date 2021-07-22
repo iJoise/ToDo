@@ -13,8 +13,7 @@ export const TodolistsList: React.FC = () => {
 
    useEffect(() => {
       dispatch(fetchTodolistsTC());
-      // eslint-disable-next-line
-   }, []);
+   }, [dispatch]);
 
    const addTodoListForm = useCallback((title: string) => {
       const action = addTodolistTC(title)
@@ -35,9 +34,7 @@ export const TodolistsList: React.FC = () => {
                      <Paper elevation={3} style={{padding: '10px'}}>
                         <Todolist
                            key={tl.id}
-                           todolistId={tl.id}
-                           title={tl.title}
-                           filter={tl.filter}
+                           todolist={tl}
                         />
                      </Paper>
                   </Grid>

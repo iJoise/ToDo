@@ -5,7 +5,7 @@ import {Checkbox, IconButton} from "@material-ui/core";
 import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
 import {Delete} from "@material-ui/icons";
 import {TaskStatuses, TaskType} from "../../../../api/todolists-api";
-import '../../../../App/App.scss'
+
 
 export type TaskPropsType = {
    task: TaskType
@@ -32,10 +32,9 @@ export const Task: React.FC<TaskPropsType> = React.memo((props) => {
       dispatch(updateTaskTC(task.id, {title: newTitle}, todolistId));
    }, [dispatch, task.id, todolistId]);
 
-   const taskClasses = task.status === TaskStatuses.Completed ? 'is-done' : '';
 
    return (
-      <li className={taskClasses}>
+      <li >
          <Checkbox
             checked={task.status === TaskStatuses.Completed}
             onChange={changeStatusHandler}

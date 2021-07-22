@@ -12,15 +12,16 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo((props) 
    const [title, setTitle] = useState('');
 
    const activateEditMode = useCallback(() => {
+      console.log('run')
       setEditMode(true);
       setTitle(titleForSpan);
    }, [titleForSpan]);
+
    const activateViewMode = useCallback(() => {
       if (title.trim()) {
          setEditMode(false);
          onChange(title);
       }
-
    },[onChange, title]);
    const onChangeTitleSpanHandler = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value);
 

@@ -11,22 +11,17 @@ import {
    changeTodolistFilterAC,
    changeTodolistTitleTC,
    FilterValuesType,
-   removeTodolistTC
+   removeTodolistTC, TodolistDomainType
 } from "../todolists-reducer";
 import {TaskStatuses, TaskType} from "../../../api/todolists-api";
 
 export type TodoListPropsType = {
-   title: string
-   todolistId: string
-   filter: FilterValuesType
+   todolist: TodolistDomainType
 }
 
-export const Todolist: React.FC<TodoListPropsType> = React.memo((
-   {
-      title,
-      filter,
-      todolistId,
-   }) => {
+export const Todolist: React.FC<TodoListPropsType> = React.memo(({todolist}) => {
+
+   const {id: todolistId, filter, title, entityStatus} = todolist
 
    const dispatch = useDispatch();
    const tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[todolistId]);
@@ -84,11 +79,11 @@ export const Todolist: React.FC<TodoListPropsType> = React.memo((
       <div>
          <h3>
             <EditableSpan titleForSpan={title} onChange={changeTodoListTitle}/>
-            <IconButton onClick={() => removeTodoList(todolistId)}>
+            <IconButton onClick={() => removeTodoList(todolistId)}  disabled={entityStatus === 'loading'}>
                <Delete/>
             </IconButton>
          </h3>
-         <AddItemForm addItem={addTaskForTodoList}/>
+         <AddItemForm addItem={addTaskForTodoList} disabled={entityStatus === 'loading'}/>
          <ul style={{minHeight: '250px'}}>
             {
                GetTaskForTodoList.map(t => {

@@ -4,10 +4,11 @@ import {ControlPoint} from "@material-ui/icons";
 
 export type AddItemFormPropsType = {
    addItem: (title: string) => void
+   disabled?: boolean
 }
 
 
-export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo ( ({addItem}) => {
+export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo ( ({addItem, disabled}) => {
    const [newTaskTitle, setNewTaskTitle] = useState('');
    const [error, setError] = useState<string | null>(null);
 
@@ -42,8 +43,9 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo ( ({addIte
             variant={"outlined"}
             label={'Type value'}
             helperText={error}
+            disabled={disabled}
          />
-         <IconButton onClick={addNewTask} color={"primary"}>
+         <IconButton onClick={addNewTask} color={"primary"} disabled={disabled}>
             <ControlPoint/>
          </IconButton>
       </div>

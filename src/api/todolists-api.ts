@@ -89,9 +89,14 @@ type GetTaskResponse = {
    totalCount: number
    items: TaskType[]
 }
-type ResponseType<D = {}> = {
+export type ResponseType<D = {}> = {
    fieldsErrors: string[]
-   resultCode: number
+   resultCode: ResultsCode
    messages: string[]
    data: D
+}
+
+export enum ResultsCode {
+   OK = 0,
+   ERROR= 1
 }

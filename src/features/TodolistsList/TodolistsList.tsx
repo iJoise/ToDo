@@ -5,20 +5,30 @@ import {addTodolistTC, fetchTodolistsTC, TodolistDomainType} from "./todolists-r
 import {Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
+import {Redirect} from "react-router-dom";
 
 export const TodolistsList: React.FC = () => {
 
    const dispatch = useDispatch();
    const todolists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists);
+   const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+
 
    useEffect(() => {
+      if (!isLoggedIn) {
+         return
+      }
       dispatch(fetchTodolistsTC());
-   }, [dispatch]);
+   }, []);
 
    const addTodoListForm = useCallback((title: string) => {
       const action = addTodolistTC(title)
       dispatch(action);
    }, [dispatch]);
+
+   if (!isLoggedIn) {
+      return <Redirect to={'/login'}/>
+   }
 
    return (
       <>

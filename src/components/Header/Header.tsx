@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       menuButton: {
          marginRight: theme.spacing(2),
-
       },
       header: {
          background: 'linear-gradient(90deg, rgba(43,86,123,1) 0%, rgba(66,123,172,1) 43%, rgba(93,151,200,1) 100%)'

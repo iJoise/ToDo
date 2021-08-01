@@ -5,7 +5,6 @@ import {loginTC} from "./auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../App/store";
 import {Redirect} from 'react-router-dom';
-import {errors} from "puppeteer";
 
 export const Login = React.memo(() => {
 
@@ -45,7 +44,6 @@ export const Login = React.memo(() => {
    }
 
    return <Grid container justify="center" alignItems="center" style={{height: '80vh'}}>
-      <Grid item xs={4}>
          <form onSubmit={formik.handleSubmit}
                style={{backgroundColor: '#ffffff', padding: '20px', borderRadius: '10px'}}>
             <FormControl>
@@ -85,7 +83,7 @@ export const Login = React.memo(() => {
                         checked={formik.values.rememberMe}
                      />}
                   />
-                  <Grid justify={"space-between"} style={{width: '100%', display: 'flex'}}>
+                  <Grid container justify="space-between" style={{width: '100%', display: 'flex'}}>
                      <Button style={{width: '220px'}} type={'submit'}
                              variant={'contained'} color={'primary'}>Login</Button>
                      <Button onClick={formik.handleReset} type={'reset'} variant={'contained'}
@@ -94,7 +92,6 @@ export const Login = React.memo(() => {
                </FormGroup>
             </FormControl>
          </form>
-      </Grid>
    </Grid>
 })
 

@@ -35,13 +35,13 @@ export const Todolist: React.FC<TodoListPropsType> = React.memo(({todolist}) => 
    const filterClickHandler = useCallback((filterValue: FilterValuesType) => {
       switch (filterValue) {
          case "all":
-            dispatch(changeTodolistFilterAC(todolistId, 'all'));
+            dispatch(changeTodolistFilterAC({todolistId, filter: "all"}));
             break;
          case "active":
-            dispatch(changeTodolistFilterAC(todolistId, 'active'));
+            dispatch(changeTodolistFilterAC({todolistId, filter: 'active'}));
             break;
          case "completed":
-            dispatch(changeTodolistFilterAC(todolistId, 'completed'));
+            dispatch(changeTodolistFilterAC({todolistId, filter: 'completed'}));
             break;
       }
    }, [todolistId, dispatch]);
@@ -79,7 +79,7 @@ export const Todolist: React.FC<TodoListPropsType> = React.memo(({todolist}) => 
       <div>
          <h3>
             <EditableSpan titleForSpan={title} onChange={changeTodoListTitle}/>
-            <IconButton onClick={() => removeTodoList(todolistId)}  disabled={entityStatus === 'loading'}>
+            <IconButton onClick={() => removeTodoList(todolistId)} disabled={entityStatus === 'loading'}>
                <Delete/>
             </IconButton>
          </h3>

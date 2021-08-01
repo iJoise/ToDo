@@ -19,7 +19,7 @@ export const TodolistsList: React.FC = () => {
          return
       }
       dispatch(fetchTodolistsTC());
-   }, []);
+   }, [isLoggedIn]);
 
    const addTodoListForm = useCallback((title: string) => {
       const action = addTodolistTC(title)

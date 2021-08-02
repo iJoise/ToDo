@@ -19,6 +19,7 @@ export const TodolistsList: React.FC = () => {
          return
       }
       dispatch(fetchTodolistsTC());
+      // eslint-disable-next-line
    }, [isLoggedIn]);
 
    const addTodoListForm = useCallback((title: string) => {

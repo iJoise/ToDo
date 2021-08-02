@@ -47,21 +47,6 @@ export const {
    addTaskAC,
    updateTaskAC,
    setTasksAC} = taskSlice.actions;
-// /**
-//  * Action Creator
-//  */
-// export const removeTaskAC = (taskId: string, todolistId: string) => {
-//    return {type: 'REMOVE-TASK', taskId, todolistId} as const
-// }
-// export const addTaskAC = (task: TaskType) => {
-//    return {type: 'ADD-TASK', task} as const
-// }
-// export const updateTaskAC = (taskId: string, model: UpdateDomainTaskModelType, todolistId: string) => {
-//    return {type: 'UPDATE-TASK', todolistId, taskId, model} as const
-// }
-// export const setTasksAC = (tasks: TaskType[], todolistId: string) => {
-//    return {type: 'SET-TASKS', tasks, todolistId} as const
-// }
 /**
  * Thunk Creator
  */
@@ -150,16 +135,6 @@ type SetTasksPayloadType = {tasks: TaskType[], todolistId: string}
 export type TasksStateType = {
    [key: string]: TaskType[]
 };
-export type TasksActionsType =
-   | RemoveTasksActionType
-   | TasksTodolistActionType
-   | UpdateTaskActionType
-   | SetTasksType
-
-type RemoveTasksActionType = ReturnType<typeof removeTaskAC>
-type TasksTodolistActionType = ReturnType<typeof addTaskAC>
-type UpdateTaskActionType = ReturnType<typeof updateTaskAC>
-type SetTasksType = ReturnType<typeof setTasksAC>
 
 type UpdateDomainTaskModelType = {
    title?: string
@@ -168,4 +143,4 @@ type UpdateDomainTaskModelType = {
    priority?: TaskPriorities
    startDate?: string
    deadline?: string
-}
+};

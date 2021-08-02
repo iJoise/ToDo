@@ -2,8 +2,7 @@ import {handleServerAppError, handleServerNetworkError} from "../../utils/error-
 import {setAppStatusAC} from "../../App/app-reducer";
 import {authAPI, LoginParamsType, ResultsCode} from "../../api/todolists-api";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {Dispatch} from "redux";
-
+import {AppThunkType} from "../../App/store";
 
 const initialState = {
    isLoggedIn: false
@@ -23,7 +22,7 @@ export const {setIsLoggedInAC} = authSlice.actions;
 /**
  * Thunk Creator
  */
-export const loginTC = (data: LoginParamsType) => async (dispatch: Dispatch) => {
+export const loginTC = (data: LoginParamsType): AppThunkType => async dispatch  => {
    dispatch(setAppStatusAC({status: 'loading'}));
    try {
       const res = await authAPI.auth(data);
@@ -38,8 +37,7 @@ export const loginTC = (data: LoginParamsType) => async (dispatch: Dispatch) => 
       dispatch(setAppStatusAC({status: 'succeeded'}));
    }
 };
-
-export const logoutTC = () => async (dispatch: Dispatch) => {
+export const logoutTC = ():AppThunkType => async dispatch => {
    dispatch(setAppStatusAC({status: 'loading'}));
    try {
       const res = await authAPI.logout()
@@ -54,7 +52,9 @@ export const logoutTC = () => async (dispatch: Dispatch) => {
       dispatch(setAppStatusAC({status: 'succeeded'}));
    }
 }
-
+/**
+ * Types
+ */
 type ActionPayloadType = {
    value: boolean
 }

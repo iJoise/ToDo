@@ -9,7 +9,7 @@ const initialState: TodolistDomainType[] = [];
 
 const todolistsSlice = createSlice({
    name: 'todolists',
-   initialState: initialState,
+   initialState,
    reducers: {
       removeTodolistAC: (state, action: PayloadAction<RemoveTodolistPayloadType>) => {
          const index = state.findIndex(tl => tl.id === action.payload.todolistId);
@@ -115,6 +115,7 @@ export type TodolistDomainType = TodolistType & {
    filter: FilterValuesType
    entityStatus: RequestStatusType
 }
+
 export type RemoveTodolistPayloadType = { todolistId: string }
 export type AddTodolistPayloadType = { todolist: TodolistType }
 type ChangeTodolistTitlePayloadType = { todolistId: string, title: string }
@@ -123,16 +124,4 @@ type ChangeTodolistEntityStatusPayloadType = { todolistId: string, status: Reque
 export type SetTodolistsPayloadType = { todolists: TodolistType[] }
 
 
-type SetTodolistsActionType = ReturnType<typeof setTodolistsAC>
-type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
-type AddTodolistActionType = ReturnType<typeof addTodolistAC>
-type ChangeTodolistTitleActionType = ReturnType<typeof changeTodolistTitleAC>
-type ChangeTodolistFilterActionType = ReturnType<typeof changeTodolistFilterAC>
-type ChangeTodolistEntityStatusActionType = ReturnType<typeof changeTodolistEntityStatusAC>
-export type TodolistsActionsType =
-   | RemoveTodolistActionType
-   | AddTodolistActionType
-   | ChangeTodolistTitleActionType
-   | ChangeTodolistFilterActionType
-   | SetTodolistsActionType
-   | ChangeTodolistEntityStatusActionType
+

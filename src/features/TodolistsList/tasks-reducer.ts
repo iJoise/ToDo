@@ -1,5 +1,5 @@
 import {ResultsCode, taskAPI, TaskPriorities, TaskStatuses, TaskType} from "../../api/todolists-api";
-import {addTodolistAC, removeTodolistAC, setTodolistsAC} from "./todolists-reducer";
+import {addTodolistAC, clearState, removeTodolistAC, setTodolistsAC} from "./todolists-reducer";
 import {AppThunkType} from "../../App/store";
 import {setAppStatusAC} from "../../App/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
@@ -38,6 +38,11 @@ const taskSlice = createSlice({
       builder.addCase(setTodolistsAC, (state, action) => {
          action.payload.todolists.forEach(tl => state[tl.id] = []);
       });
+      builder.addCase(clearState, () => {
+         return {
+            ...initialState,
+         }
+      })
    }
 })
 

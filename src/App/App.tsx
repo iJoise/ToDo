@@ -6,7 +6,7 @@ import {TodolistsList} from "../features/TodolistsList/TodolistsList";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
-import {RequestStatusType, initializedAppTC} from "./app-reducer";
+import {initializedAppTC, RequestStatusType} from "./app-reducer";
 import LinearProgress from '@material-ui/core/LinearProgress';
 import './App.scss'
 import {BrowserRouter, Route} from "react-router-dom";
@@ -14,11 +14,13 @@ import {Login} from "../features/Login/Login";
 import {Grid} from "@material-ui/core";
 
 
+
 export const App = () => {
 
    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.initialized);
    const dispatch = useDispatch();
+
 
    useEffect(() => {
       dispatch(initializedAppTC())

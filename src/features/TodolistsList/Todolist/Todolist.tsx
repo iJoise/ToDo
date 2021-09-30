@@ -5,7 +5,7 @@ import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../App/store";
-import {addTaskTC, fetchTaskTC} from "../tasks-reducer";
+import {addTaskTC, fetchTask} from "../tasks-reducer";
 import {Task} from "./Task/Task";
 import {
    changeTodolistFilterAC,
@@ -27,7 +27,7 @@ export const Todolist: React.FC<TodoListPropsType> = React.memo(({todolist}) => 
    const tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[todolistId]);
 
    useEffect(() => {
-      dispatch(fetchTaskTC(todolistId))
+      dispatch(fetchTask(todolistId))
       // eslint-disable-next-line
    }, []);
 

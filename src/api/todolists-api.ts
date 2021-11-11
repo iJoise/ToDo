@@ -6,7 +6,7 @@ import axios from "axios";
  */
 const instance = axios.create({
    withCredentials: true,
-   baseURL: 'https://social-network.samuraijs.com/api/1.1/',
+   baseURL: process.env.REACT_APP_BASE_URL,
    headers: {
       'API-KEY': '3928f52f-fe0d-4ea9-97d7-8b764f267e74'
    },

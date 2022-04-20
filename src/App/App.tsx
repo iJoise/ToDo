@@ -6,12 +6,13 @@ import {TodolistsList} from "../features/TodolistsList/TodolistsList";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
-import {RequestStatusType, initializedAppTC} from "./app-reducer";
 import LinearProgress from '@material-ui/core/LinearProgress';
 import './App.scss'
 import {BrowserRouter, Route} from "react-router-dom";
 import {Login} from "../features/Login/Login";
 import {Grid} from "@material-ui/core";
+import {initializedApp} from "../store/app-reducer/sagas";
+import {RequestStatusType} from "../store/app-reducer/types";
 
 
 export const App = () => {
@@ -21,8 +22,8 @@ export const App = () => {
    const dispatch = useDispatch();
 
    useEffect(() => {
-      dispatch(initializedAppTC())
-   }, []);
+      dispatch(initializedApp())
+   }, [dispatch]);
 
 
    if (!isInitialized) {

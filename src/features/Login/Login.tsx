@@ -1,11 +1,10 @@
 import React from 'react'
 import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from '@material-ui/core'
 import {useFormik} from "formik";
-import {loginTC} from "./auth-reducer";
+import {loginTC} from "../../store/auth-reducer/auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../App/store";
 import {Redirect} from 'react-router-dom';
-import {errors} from "puppeteer";
 
 export const Login = React.memo(() => {
 
@@ -44,7 +43,7 @@ export const Login = React.memo(() => {
       return <Redirect to={'/'}/>
    }
 
-   return <Grid container justify="center" alignItems="center" style={{height: '80vh'}}>
+   return <Grid justify="center" alignItems="center" style={{height: '80vh'}}>
       <Grid item xs={4}>
          <form onSubmit={formik.handleSubmit}
                style={{backgroundColor: '#ffffff', padding: '20px', borderRadius: '10px'}}>

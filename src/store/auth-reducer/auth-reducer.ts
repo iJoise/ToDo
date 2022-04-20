@@ -1,7 +1,7 @@
 import {AppThunkType} from "../../App/store";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
-import {setAppStatusAC} from "../../App/app-reducer";
 import {authAPI, LoginParamsType, ResultsCode} from "../../api/todolists-api";
+import {setAppStatusAC} from "../app-reducer/actions";
 
 
 const initialState: LoginStateType = {

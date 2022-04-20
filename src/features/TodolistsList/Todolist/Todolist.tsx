@@ -5,15 +5,16 @@ import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../App/store";
-import {addTaskTC, fetchTaskTC} from "../tasks-reducer";
 import {Task} from "./Task/Task";
 import {
    changeTodolistFilterAC,
    changeTodolistTitleTC,
    FilterValuesType,
-   removeTodolistTC, TodolistDomainType
-} from "../todolists-reducer";
+   removeTodolistTC,
+   TodolistDomainType
+} from "../../../store/todolist-reducer/todolists-reducer";
 import {TaskStatuses, TaskType} from "../../../api/todolists-api";
+import {addTask, fetchTasks} from "../../../store/task-reducer/sagas";
 
 export type TodoListPropsType = {
    todolist: TodolistDomainType
@@ -27,7 +28,7 @@ export const Todolist: React.FC<TodoListPropsType> = React.memo(({todolist}) => 
    const tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[todolistId]);
 
    useEffect(() => {
-      dispatch(fetchTaskTC(todolistId))
+      dispatch(fetchTasks(todolistId))
       // eslint-disable-next-line
    }, []);
 
@@ -55,7 +56,7 @@ export const Todolist: React.FC<TodoListPropsType> = React.memo(({todolist}) => 
    }, [dispatch]);
 
    const addTaskForTodoList = useCallback((title: string) => {
-      dispatch(addTaskTC(title, todolistId));
+      dispatch(addTask(title, todolistId));
    }, [dispatch, todolistId]);
 
    const changeTodoListTitle = useCallback((newTitle: string) => {

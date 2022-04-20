@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../App/store";
-import {addTodolistTC, fetchTodolistsTC, TodolistDomainType} from "./todolists-reducer";
+import {addTodolistTC, fetchTodolistsTC, TodolistDomainType} from "../../store/todolist-reducer/todolists-reducer";
 import {Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
@@ -19,6 +19,7 @@ export const TodolistsList: React.FC = () => {
          return
       }
       dispatch(fetchTodolistsTC());
+      // eslint-disable-next-line
    }, []);
 
    const addTodoListForm = useCallback((title: string) => {
@@ -32,7 +33,7 @@ export const TodolistsList: React.FC = () => {
 
    return (
       <>
-         <Grid container style={{padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+         <Grid style={{padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             <Paper style={{padding: '10px'}}>
                <AddItemForm addItem={addTodoListForm}/>
             </Paper>

@@ -1,4 +1,6 @@
-import {appReducer, InitialStateType, setAppErrorAC, setAppStatusAC} from "./app-reducer";
+import {appReducer} from "../store/app-reducer/app-reducer";
+import {InitialStateType} from "../store/app-reducer/types";
+import {setAppErrorAC, setAppStatusAC} from "../store/app-reducer/actions";
 
 let startState: InitialStateType;
 
@@ -6,7 +8,8 @@ beforeEach(() => {
 
    startState = {
       error: null,
-      status: "idle"
+      status: "idle",
+      initialized: true
    }
 
 })

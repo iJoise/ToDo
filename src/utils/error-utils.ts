@@ -1,6 +1,6 @@
-import {setAppErrorAC, setAppStatusAC} from "../App/app-reducer";
 import {ResponseType} from "../api/todolists-api";
 import {Dispatch} from "redux";
+import {setAppErrorAC, setAppStatusAC} from "../store/app-reducer/actions";
 
 export const handleServerAppError = <D>(data: ResponseType<D>, dispatch: Dispatch) => {
    if (data.messages.length) {

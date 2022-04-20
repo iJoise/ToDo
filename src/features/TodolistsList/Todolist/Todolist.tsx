@@ -31,7 +31,6 @@ export const Todolist: React.FC<TodoListPropsType> = React.memo(({todolist}) => 
       // eslint-disable-next-line
    }, []);
 
-
    const filterClickHandler = useCallback((filterValue: FilterValuesType) => {
       switch (filterValue) {
          case "all":
@@ -49,15 +48,12 @@ export const Todolist: React.FC<TodoListPropsType> = React.memo(({todolist}) => 
    const activeClassButton = useCallback((filterStatus: FilterValuesType) => {
       return filter === filterStatus ? 'contained' : 'text';
    }, [filter]);
-
    const removeTodoList = useCallback((todolistId: string) => {
       dispatch(removeTodolistTC(todolistId));
    }, [dispatch]);
-
    const addTaskForTodoList = useCallback((title: string) => {
       dispatch(addTaskTC(title, todolistId));
    }, [dispatch, todolistId]);
-
    const changeTodoListTitle = useCallback((newTitle: string) => {
       dispatch(changeTodolistTitleTC(todolistId, newTitle));
    }, [dispatch, todolistId]);
@@ -101,9 +97,9 @@ export const Todolist: React.FC<TodoListPropsType> = React.memo(({todolist}) => 
                onClick={() => filterClickHandler('all')}>All
             </Button>
             <Button
+               onClick={() => filterClickHandler('active')}
                color={"primary"}
-               variant={activeClassButton("active")}
-               onClick={() => filterClickHandler('active')}>Active
+               variant={activeClassButton("active")}>Active
             </Button>
             <Button
                color={"secondary"}

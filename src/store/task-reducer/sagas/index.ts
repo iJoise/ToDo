@@ -1,5 +1,4 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects';
-import { AxiosResponse } from 'axios';
 import {
   CreateTaskResponseType,
   GetTaskResponse,
@@ -16,10 +15,10 @@ import { setAppStatusAC } from '../../app-reducer/actions';
 export function* fetchTaskWorkerSaga(payload: FetchTasks) {
   yield put(setAppStatusAC('loading'));
   try {
-    const res: AxiosResponse<GetTaskResponse> = yield call(taskAPI.getTasks, payload.todolistID);
-    yield put(setTasksAC(res.data.items, payload.todolistID));
+    const data: GetTaskResponse = yield call(taskAPI.getTasks, payload.todolistID);
+    yield put(setTasksAC(data.items, payload.todolistID));
   } catch (err) {
-    handleServerNetworkError(err, put);
+    yield handleServerNetworkError(err);
   } finally {
     yield put(setAppStatusAC('succeeded'));
   }
@@ -28,14 +27,14 @@ export function* fetchTaskWorkerSaga(payload: FetchTasks) {
 export function* removeTaskWorkerSaga({ todolistID, taskId }: RemoveTasks) {
   yield put(setAppStatusAC('loading'));
   try {
-    const res: AxiosResponse<ResponseType> = yield call(taskAPI.deleteTask, todolistID, taskId);
-    if (res.data.resultCode === ResultsCode.OK) {
+    const data: ResponseType = yield call(taskAPI.deleteTask, todolistID, taskId);
+    if (data.resultCode === ResultsCode.OK) {
       yield put(removeTaskAC(taskId, todolistID));
     } else {
-      handleServerAppError(res.data, put);
+      yield handleServerAppError(data);
     }
   } catch (err) {
-    handleServerNetworkError(err, put);
+    yield handleServerNetworkError(err);
   } finally {
     yield put(setAppStatusAC('succeeded'));
   }
@@ -44,14 +43,14 @@ export function* removeTaskWorkerSaga({ todolistID, taskId }: RemoveTasks) {
 export function* addTaskWorkerSaga({ todolistID, title }: AddTasks) {
   yield put(setAppStatusAC('loading'));
   try {
-    const res: AxiosResponse<ResponseType<CreateTaskResponseType>> = yield call(taskAPI.createTask, todolistID, title);
-    if (res.data.resultCode === ResultsCode.OK) {
-      yield put(addTaskAC(res.data.data.item));
+    const data: ResponseType<CreateTaskResponseType> = yield call(taskAPI.createTask, todolistID, title);
+    if (data.resultCode === ResultsCode.OK) {
+      yield put(addTaskAC(data.data.item));
     } else {
-      handleServerAppError(res.data, put);
+     yield* handleServerAppError(data);
     }
   } catch (err) {
-    handleServerNetworkError(err, put);
+    yield* handleServerNetworkError(err);
   } finally {
     yield put(setAppStatusAC('succeeded'));
   }
@@ -62,10 +61,12 @@ export function* updateTaskWorkerSaga({ taskId, domainModel, todolistId }: Updat
   try {
     const state = getState(yield select());
     const task = state.tasks[todolistId].find(t => t.id === taskId);
+
     if (!task) {
       console.warn('Task not found in the state');
       return;
     }
+
     const apiModel = {
       title: task.title,
       description: task.description,
@@ -75,14 +76,15 @@ export function* updateTaskWorkerSaga({ taskId, domainModel, todolistId }: Updat
       deadline: task.deadline,
       ...domainModel,
     };
-    const res: AxiosResponse<ResponseType> = yield call(taskAPI.updateTask, todolistId, taskId, apiModel);
-    if (res.data.resultCode === ResultsCode.OK) {
+
+    const data: ResponseType = yield call(taskAPI.updateTask, todolistId, taskId, apiModel);
+    if (data.resultCode === ResultsCode.OK) {
       yield put(updateTaskAC(taskId, domainModel, todolistId));
     } else {
-      handleServerAppError(res.data, put);
+      yield* handleServerAppError(data);
     }
   } catch (err) {
-    handleServerNetworkError(err, put);
+    yield* handleServerNetworkError(err);
   } finally {
     yield put(setAppStatusAC('succeeded'));
   }

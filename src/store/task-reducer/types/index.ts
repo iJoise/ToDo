@@ -1,11 +1,7 @@
 import {TaskPriorities, TaskStatuses, TaskType} from "../../../api/todolists-api";
-import {
-  AddTodolistActionType,
-  RemoveTodolistActionType,
-  SetTodolistsActionType
-} from "../../todolist-reducer/todolists-reducer";
 import {addTaskAC, removeTaskAC, setTasksAC, updateTaskAC} from "../actions";
 import {addTask, fetchTasks, removeTask, updateTask} from "../sagas";
+import { AddTodolistActionType, RemoveTodolistActionType, SetTodolistsActionType } from '../../todolist-reducer/types';
 
 /**
  * types

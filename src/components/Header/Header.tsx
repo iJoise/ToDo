@@ -6,8 +6,8 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import {useDispatch, useSelector} from "react-redux";
-import {logoutTC} from "../../store/auth-reducer/auth-reducer";
 import {AppRootStateType} from "../../App/store";
+import { logout } from '../../store/auth-reducer/sagas';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -35,7 +35,7 @@ export const Header: React.FC = () => {
    const dispatch = useDispatch();
 
    const logoutHandler = useCallback(() => {
-      dispatch(logoutTC());
+      dispatch(logout());
    },[dispatch])
 
    return (

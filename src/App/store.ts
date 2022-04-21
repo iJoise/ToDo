@@ -1,14 +1,14 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { tasksReducer } from '../store/task-reducer/tasks-reducer';
-import thunk, { ThunkAction } from 'redux-thunk';
 import { appReducer } from '../store/app-reducer/app-reducer';
-import { authReducer, LoginActionsType } from '../store/auth-reducer/auth-reducer';
+import { authReducer } from '../store/auth-reducer/auth-reducer';
 import createSagaMiddleware from 'redux-saga';
-import { TodolistsActionsType, todolistsReducer } from '../store/todolist-reducer/todolists-reducer';
-import { TasksActionsType } from '../store/task-reducer/types';
+import { todolistsReducer } from '../store/todolist-reducer/todolists-reducer';
 import { taskWatcherSaga } from '../store/task-reducer/sagas';
 import { appWatcherSaga } from '../store/app-reducer/sagas';
-import { AppActionType } from '../store/app-reducer/types';
+import { all } from 'redux-saga/effects';
+import { loginWatcherSaga } from '../store/auth-reducer/sagas';
+import { todolistWatcherSaga } from '../store/todolist-reducer/sagas';
 
 const rootReducer = combineReducers({
   todolists: todolistsReducer,
@@ -19,16 +19,12 @@ const rootReducer = combineReducers({
 
 const sagaMiddleware = createSagaMiddleware();
 
-export const store = createStore(rootReducer, applyMiddleware(thunk, sagaMiddleware));
+export const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 
 sagaMiddleware.run(rootWatcher);
 
 function* rootWatcher() {
-  yield appWatcherSaga();
-  yield taskWatcherSaga();
+  yield all([appWatcherSaga(), taskWatcherSaga(), loginWatcherSaga(), todolistWatcherSaga()]);
 }
 
-
 export type AppRootStateType = ReturnType<typeof rootReducer>
-type AllActionsType = TodolistsActionsType | TasksActionsType | AppActionType | LoginActionsType
-export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AllActionsType>

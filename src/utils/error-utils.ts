@@ -1,17 +1,17 @@
-import {ResponseType} from "../api/todolists-api";
-import {Dispatch} from "redux";
-import {setAppErrorAC, setAppStatusAC} from "../store/app-reducer/actions";
+import { ResponseType } from '../api/todolists-api';
+import { setAppErrorAC, setAppStatusAC } from '../store/app-reducer/actions';
+import { put } from 'redux-saga/effects';
 
-export const handleServerAppError = <D>(data: ResponseType<D>, dispatch: Dispatch) => {
+export function* handleServerAppError<D>(data: ResponseType<D>) {
    if (data.messages.length) {
-      dispatch(setAppErrorAC(data.messages[0]))
+      yield put(setAppErrorAC(data.messages[0]))
    } else {
-      dispatch(setAppErrorAC('Some error occurred'))
+     yield put(setAppErrorAC('Some error occurred'))
    }
-   dispatch(setAppStatusAC('failed'));
+  yield put(setAppStatusAC('failed'));
  }
 
- export const handleServerNetworkError = (err: { message: string}, dispatch: Dispatch) => {
-    dispatch(setAppErrorAC(err.message ? err.message : 'Some error occurred'))
-    dispatch(setAppStatusAC('failed'));
+ export function* handleServerNetworkError(err: { message: string}) {
+   yield put(setAppErrorAC(err.message ? err.message : 'Some error occurred'))
+   yield put(setAppStatusAC('failed'));
  }

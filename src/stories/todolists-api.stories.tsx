@@ -18,7 +18,7 @@ export const GetTodolists = () => {
   const [state, setState] = useState<any>(null)
   useEffect(() => {
     todolistsAPI.getTodolist()
-       .then(data => setState(data.data))
+       .then(data => setState(data))
 
   }, [])
 
@@ -64,7 +64,7 @@ export const GetTask = () => {
   useEffect(() => {
     const todolistId = '8c843791-3f17-4e55-ac6b-1dfbaf2bb8fb'
     taskAPI.getTasks(todolistId)
-       .then(data => setState(data.data.items))
+       .then(data => setState(data.items))
   }, [])
 
   return <div> {JSON.stringify(state)}</div>
@@ -75,7 +75,7 @@ export const CreateTask = () => {
   useEffect(() => {
     const todolistId = '8c843791-3f17-4e55-ac6b-1dfbaf2bb8fb'
     taskAPI.createTask(todolistId,'Find job')
-       .then(data => setState(data.data.data))
+       .then(data => setState(data.data))
   }, [])
 
   return <div> {JSON.stringify(state)}</div>

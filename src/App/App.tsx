@@ -16,7 +16,6 @@ import {RequestStatusType} from "../store/app-reducer/types";
 
 
 export const App = () => {
-
    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.initialized);
    const dispatch = useDispatch();
@@ -28,7 +27,7 @@ export const App = () => {
 
    if (!isInitialized) {
       return <Container>
-         <Grid container justify={'center'} alignItems={'center'} style={{height: '100vh'}}>
+         <Grid container style={{height: '100vh'}}>
             <CircularProgress color={'secondary'} size={130}/>
          </Grid>
       </Container>

@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios';
 import { authAPI, MeResponseType, ResponseType, ResultsCode } from '../../../api/todolists-api';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { setIsLoggedInAC } from '../../auth-reducer/auth-reducer';
@@ -7,15 +6,15 @@ import { setAppInitializedAC } from '../actions';
 
 export function* initializedAppWorkerSaga() {
   try {
-    const res: AxiosResponse<ResponseType<MeResponseType>> = yield call(authAPI.me);
+    const data: ResponseType<MeResponseType> = yield call(authAPI.me);
     yield put(setAppInitializedAC(true));
-    if (res.data.resultCode === ResultsCode.OK) {
+    if (data.resultCode === ResultsCode.OK) {
       yield put(setIsLoggedInAC(true));
     } else {
-      handleServerAppError(res.data, put);
+      yield handleServerAppError(data);
     }
   } catch (err) {
-    handleServerNetworkError(err, put);
+    yield handleServerNetworkError(err);
   }
 }
 
